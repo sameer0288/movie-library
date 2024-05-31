@@ -1,7 +1,7 @@
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import FavoriteBorderOutlinedIcon from "@mui/icons-material/FavoriteBorderOutlined";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
-
+import PlaylistAddIcon from '@mui/icons-material/PlaylistAdd';
 import { LoadingButton } from "@mui/lab";
 import { Box, Button, Chip, Divider, Stack, Typography } from "@mui/material";
 import { useEffect, useState, useRef } from "react";
@@ -30,6 +30,9 @@ import RecommendSlide from "../components/common/RecommendSlide";
 import MediaSlide from "../components/common/MediaSlide";
 import MediaReview from "../components/common/MediaReview";
 
+import PlaylistModal from "./PlaylistModal"
+import playlistApi from '../api/modules/playlist.api'; // Import necessary APIs
+
 const MediaDetail = () => {
   const { mediaType, mediaId } = useParams();
 
@@ -43,6 +46,7 @@ const MediaDetail = () => {
   const dispatch = useDispatch();
 
   const videoRef = useRef(null);
+  const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -111,6 +115,21 @@ const MediaDetail = () => {
       setIsFavorite(false);
       toast.success("Remove favorite success");
     }
+  };
+
+
+ 
+  const handleOpenModal = () => {
+    if (!user) return dispatch(setAuthModalOpen(true));
+    if (!user) {
+      toast.error('Please log in to add to playlist.');
+      return;
+    }
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
   };
 
   return (
@@ -209,6 +228,23 @@ const MediaDetail = () => {
                     >
                       watch now
                     </Button>
+                    <Button
+                 variant="contained"
+      sx={{ width: 'max-content' }}
+      size="large"
+      startIcon={<PlaylistAddIcon />}
+      onClick={handleOpenModal} // Open the modal on button click
+    >
+      Add to Playlist
+    </Button>
+
+    <PlaylistModal
+      open={modalOpen}
+      onClose={handleCloseModal}
+      user={user}
+      media={media}
+      mediaType={mediaType}
+    />
                   </Stack>
                   {/* buttons */}
 

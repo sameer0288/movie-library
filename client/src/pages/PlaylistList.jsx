@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import mediaApi from "../api/modules/media.api";
-import playlistApi from "../api/modules/playlist.api";
+// import playlistApi from "../api/modules/playlist.api";
 
 const PlaylistList = () => {
   const { user } = useSelector((state) => state.user);
@@ -35,64 +35,64 @@ const PlaylistList = () => {
   }, []);
 
   const handleCreatePlaylist = async () => {
-    if (!playlistName) {
-      toast.error("Playlist name is required");
-      return;
-    }
+    // if (!playlistName) {
+    //   toast.error("Playlist name is required");
+    //   return;
+    // }
 
-    if (!user || !user.id) {
-      toast.error("User is not authenticated");
-      return;
-    }
+    // if (!user || !user.id) {
+    //   toast.error("User is not authenticated");
+    //   return;
+    // }
 
-    try {
-      const { response, err } = await playlistApi.createPlaylist({
-        userId: user.id, // Ensure user ID is correctly passed
-        name: playlistName,
-        isPublic,
-      });
+    // try {
+    //   const { response, err } = await playlistApi.createPlaylist({
+    //     userId: user.id, // Ensure user ID is correctly passed
+    //     name: playlistName,
+    //     isPublic,
+    //   });
 
-      if (err) {
-        toast.error(err.message);
-      } else {
-        toast.success("Playlist created successfully");
-        setPlaylistName("");
-        setIsPublic(true);
-        // Optionally update user state or refetch user data to get the updated playlists
-      }
-    } catch (error) {
-      console.error("Error creating playlist:", error);
-      toast.error("Failed to create playlist");
-    }
+    //   if (err) {
+    //     toast.error(err.message);
+    //   } else {
+    //     toast.success("Playlist created successfully");
+    //     setPlaylistName("");
+    //     setIsPublic(true);
+    //     // Optionally update user state or refetch user data to get the updated playlists
+    //   }
+    // } catch (error) {
+    //   console.error("Error creating playlist:", error);
+    //   toast.error("Failed to create playlist");
+    // }
   };
 
   const handleAddToPlaylist = async (movie) => {
-    if (!selectedPlaylist) {
-      toast.error("Please select a playlist first");
-      return;
-    }
+    // if (!selectedPlaylist) {
+    //   toast.error("Please select a playlist first");
+    //   return;
+    // }
 
-    if (!user || !user.id) {
-      toast.error("User is not authenticated");
-      return;
-    }
+    // if (!user || !user.id) {
+    //   toast.error("User is not authenticated");
+    //   return;
+    // }
 
-    try {
-      const { response, err } = await playlistApi.addMovieToPlaylist({
-        userId: user.id, // Ensure user ID is correctly passed
-        listId: selectedPlaylist,
-        movieId: movie.id,
-      });
+    // try {
+    //   const { response, err } = await playlistApi.addMovieToPlaylist({
+    //     userId: user.id, // Ensure user ID is correctly passed
+    //     listId: selectedPlaylist,
+    //     movieId: movie.id,
+    //   });
 
-      if (err) {
-        toast.error(err.message);
-      } else {
-        toast.success(`${movie.title} added to playlist`);
-      }
-    } catch (error) {
-      console.error("Error adding movie to playlist:", error);
-      toast.error("Failed to add movie to playlist");
-    }
+    //   if (err) {
+    //     toast.error(err.message);
+    //   } else {
+    //     toast.success(`${movie.title} added to playlist`);
+    //   }
+    // } catch (error) {
+    //   console.error("Error adding movie to playlist:", error);
+    //   toast.error("Failed to add movie to playlist");
+    // }
   };
 
   return (

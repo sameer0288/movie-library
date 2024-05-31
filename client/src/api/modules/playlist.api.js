@@ -1,8 +1,9 @@
 import privateClient from "../client/private.client";
 
 const playlistEndpoints = {
-  create: "/lists/create",
-  addMovieToPlaylist: "/lists/add",
+  create: "/playlists/create",
+  addMovieToPlaylist: "/playlists/add",
+  getUserPlaylists: (userId) => `/playlists/users/${userId}/playlists`,
 };
 
 const playlistApi = {
@@ -13,22 +14,40 @@ const playlistApi = {
         name,
         isPublic,
       });
-      return { response };
+      console.log(response);
+      return { response }; // Return response within an object
+  
     } catch (err) {
-      return { err };
+      return { error: err.response ? err.response.data : err.message }; // Return error object
     }
   },
-  addMovieToPlaylist: async ({ userId, listId, movieId }) => {
-    const convertedMovieId = String(movieId); // Convert movieId to string
+
+  addMovieToPlaylist: async ({ userId, listId,  mediaId, mediaType, mediaTitle, mediaPoster, mediaRate }) => {
+    console.log(userId,mediaType, mediaId,mediaTitle,mediaPoster,mediaRate,listId);
     try {
       const response = await privateClient.post(playlistEndpoints.addMovieToPlaylist, {
         userId,
         listId,
-        movieId:convertedMovieId,
+        mediaId: String( mediaId), // Ensure movieId is always passed as a string
+        mediaType,
+        mediaTitle,
+        mediaPoster,
+        mediaRate,
       });
-      return { response };
+      console.log("dsfdsfdfdfdfdf",response);
+      return {response}; // Return response directly
     } catch (err) {
-      return { err };
+      return { error: err.response ? err.response : err.message }; // Return error object
+    }
+  },
+
+  getUserPlaylists: async (userId) => {
+    try {
+      const response = await privateClient.get(playlistEndpoints.getUserPlaylists(userId));
+      console.log(response)
+      return {response}; // Return response directly
+    } catch (err) {
+      return { error: err.response ? err.response.data : err.message }; // Return error object
     }
   },
 };
