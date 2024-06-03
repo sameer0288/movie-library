@@ -13,12 +13,13 @@ import {
   ListItem,
   CircularProgress,
   Box,
+  IconButton, // Import IconButton component from MUI
 } from '@mui/material';
+import { Lock, Public } from '@mui/icons-material'; // Import lock and public icons from MUI
 import { toast } from 'react-toastify';
 import playlistApi from '../api/modules/playlist.api';
 
-const PlaylistModal = ({ open, onClose, user, media,mediaType }) => {
-  // console.log("hello",media,media.name);
+const PlaylistModal = ({ open, onClose, user, media, mediaType }) => {
   const [playlists, setPlaylists] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newPlaylistName, setNewPlaylistName] = useState('');
@@ -88,7 +89,6 @@ const PlaylistModal = ({ open, onClose, user, media,mediaType }) => {
   };
 
   const handleAddToPlaylist = async () => {
-
     try {
       const response = await playlistApi.addMovieToPlaylist({
         userId: user.id,
@@ -99,21 +99,17 @@ const PlaylistModal = ({ open, onClose, user, media,mediaType }) => {
         mediaPoster: media.poster_path,
         mediaRate: media.vote_average,
       });
-  
-      // console.log("Response:", response); // Log the response
-  
+
       if (response.error) {
         toast.error(response.error || "Failed to add to playlist");
       } else {
         toast.success('Added to playlist successfully!');
-        console.log(`Movie "${media.title}" added to playlist with ID ${selectedPlaylist}`);
         onClose();
       }
     } catch (error) {
       toast.error("Failed to add to playlist: " + error.message);
     }
   };
-  
 
   const handleCloseModal = () => {
     setNewPlaylistName('');
@@ -152,6 +148,11 @@ const PlaylistModal = ({ open, onClose, user, media,mediaType }) => {
                           control={<Radio />}
                           label={playlist.name}
                         />
+                        {playlist.isPublic ? (
+                          <Public color="primary" /> // Show public icon if playlist is public
+                        ) : (
+                          <Lock color="primary" /> // Show lock icon if playlist is private
+                        )}
                       </ListItem>
                     ))}
                   </List>
@@ -167,38 +168,38 @@ const PlaylistModal = ({ open, onClose, user, media,mediaType }) => {
                 margin="dense"
               />
               <RadioGroup
-row
-value={privacy}
-onChange={(e) => setPrivacy(e.target.value)}
->
-<FormControlLabel value="public" control={<Radio />} label="Public" />
-<FormControlLabel value="private" control={<Radio />} label="Private" />
-</RadioGroup>
-</Box>
-</>
-)}
-</DialogContent>
-<DialogActions>
-<Button onClick={handleCloseModal} color="primary">Cancel</Button>
-<Button
-onClick={handleCreatePlaylist}
-color="primary"
-variant="contained"
-disabled={!newPlaylistName || creating}
->
-{creating ? <CircularProgress size={24} /> : 'Create Playlist'}
-</Button>
-<Button
-       onClick={handleAddToPlaylist}
-       color="primary"
-       variant="contained"
-       disabled={!selectedPlaylist}
-     >
-Add to Playlist
-</Button>
-</DialogActions>
-</Dialog>
-);
+                row
+                value={privacy}
+                onChange={(e) => setPrivacy(e.target.value)}
+              >
+                <FormControlLabel value="public" control={<Radio />} label="Public" />
+                <FormControlLabel value="private" control={<Radio />} label="Private" />
+              </RadioGroup>
+            </Box>
+          </>
+        )}
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleCloseModal} color="primary">Cancel</Button>
+        <Button
+          onClick={handleCreatePlaylist}
+          color="primary"
+          variant="contained"
+          disabled={!newPlaylistName || creating}
+        >
+          {creating ? <CircularProgress size={24} /> : 'Create Playlist'}
+        </Button>
+        <Button
+          onClick={handleAddToPlaylist}
+          color="primary"
+          variant="contained"
+          disabled={!selectedPlaylist}
+        >
+          Add to Playlist
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 };
 
 export default PlaylistModal;

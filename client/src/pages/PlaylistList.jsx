@@ -92,7 +92,9 @@ const PlaylistItem = ({ playlist, onRemoved }) => {
   return (
     <Card sx={{ mb: 2 }}>
       <CardContent>
-        <Typography variant="h3" color={"red"}>{playlist.name}</Typography>
+      <Typography variant="h3" color={"red"}>
+  {playlist.name} ({playlist.movies.length}) {/* Display the count of movies */}
+</Typography>
         <Typography variant="body2" color="text.secondary" display="flex" alignItems="center">
           {playlist.isPublic ? <><PublicIcon fontSize="small" sx={{ mr: 1 }} />Public</>: <><LockIcon fontSize="small" sx={{ mr: 1 }} />Private</>}
         </Typography>
