@@ -7,6 +7,7 @@ import MediaSearch from "../pages/MediaSearch";
 import PasswordUpdate from "../pages/PasswordUpdate";
 import ReviewList from "../pages/ReviewList";
 import PlaylistList from "../pages/PlaylistList"; // Import the PlaylistList page component
+import SharePlaylistDetail from "../pages/SharePlaylistDetail"; // Import the PlaylistDetail page component
 
 import ProtectedPage from "../components/common/ProtectedPage";
 
@@ -18,8 +19,9 @@ export const routesGen = {
   person: (id) => `/person/${id}`,
   favoriteList: "/favorites",
   reviewList: "/reviews",
-  passwordUpdate: "password-update",
-  playlistList: "/playlists" // Define the route for the playlist list
+  passwordUpdate: "/password-update", // Add leading slash for consistency
+  playlistList: "/playlists",
+  playlistDetail: (id) => `/playlists/details/${id}` // Define the route generator for playlist details
 };
 
 const routes = [
@@ -66,13 +68,22 @@ const routes = [
     state: "reviews"
   },
   {
-    path: "/playlists", // Define the route for the playlists
+    path: "/playlists",
     element: (
       <ProtectedPage>
         <PlaylistList />
       </ProtectedPage>
     ),
     state: "playlists"
+  },
+  {
+    path: "/playlists/details/:id", // Add the route for playlist details
+    element: (
+    
+        <SharePlaylistDetail />
+
+    ),
+    state: "playlist.detail"
   },
   {
     path: "/:mediaType",

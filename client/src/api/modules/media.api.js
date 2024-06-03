@@ -4,7 +4,8 @@ import publicClient from "../client/public.client";
 const mediaEndpoints = {
   list: ({ mediaType, mediaCategory, page }) => `${mediaType}/${mediaCategory}?page=${page}`,
   detail: ({ mediaType, mediaId }) => `${mediaType}/detail/${mediaId}`,
-  search: ({ mediaType, query, page }) => `${mediaType}/search?query=${query}&page=${page}`
+  search: ({ mediaType, query, page }) => `${mediaType}/search?query=${query}&page=${page}`,
+  playlistDetail: (playlistId) => `playlists/details/${playlistId}`, // Add this line
 };
 
 const mediaApi = {
@@ -34,6 +35,19 @@ const mediaApi = {
 
       return { response };
     } catch (err) { return { err }; }
+  },
+
+  getPlaylistDetail: async (playlistId) => { // Add this method
+    // console.log(playlistId)
+    try {
+      const response = await publicClient.get(
+        mediaEndpoints.playlistDetail(playlistId)
+      );
+      // console.log(response)
+      return { response };
+    } catch (err) {
+      return { err };
+    }
   }
 };
 

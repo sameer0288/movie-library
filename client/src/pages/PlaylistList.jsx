@@ -81,7 +81,7 @@ const PlaylistItem = ({ playlist, onRemoved }) => {
 
   const handleSharePlaylist = () => {
     // console.log(playlist.id)
-    const playlistUrl = `${window.location.origin}/playlist/${playlist.id}`;
+    const playlistUrl = `${window.location.origin}/playlists/details/${playlist.id}`;
     navigator.clipboard.writeText(playlistUrl).then(() => {
       toast.success("Playlist URL copied to clipboard");
     }).catch(err => {

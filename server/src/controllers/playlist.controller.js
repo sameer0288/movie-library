@@ -3,7 +3,7 @@ import User from "../models/user.model.js";
 
 export const createPlaylist = async (req, res) => {
   const { userId, name, isPublic } = req.body;
-console.log(req.body);
+// console.log(req.body);
   try {
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: "User not found" });
@@ -58,3 +58,30 @@ export const getUserPlaylists = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+
+export const getPlaylistDetails = async (req, res) => {
+  const { id } = req.params;
+// console.log(id);
+
+
+  try {
+    // Fetch playlist details based on the playlist ID
+    const playlist = await Playlist.findById(id);
+    // console.log(playlist);
+
+    // Check if playlist exists
+    if (!playlist) {
+      return res.status(404).json({ message: "Playlist not found" });
+    }
+
+    // Return playlist details as JSON response
+    res.status(200).json(playlist);
+  } catch (error) {
+    // Handle errors
+    console.error("Error fetching playlist details:", error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
+
+
