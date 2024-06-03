@@ -44,8 +44,8 @@ const playlistApi = {
   getUserPlaylists: async (userId) => {
     try {
       const response = await privateClient.get(playlistEndpoints.getUserPlaylists(userId));
-      console.log(response)
-      return {response}; // Return response directly
+      // console.log("getUserPlaylists response:", response);
+      return { response }; // Return response directly
     } catch (err) {
       return { error: err.response ? err.response.data : err.message }; // Return error object
     }

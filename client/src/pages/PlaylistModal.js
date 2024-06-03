@@ -18,6 +18,7 @@ import { toast } from 'react-toastify';
 import playlistApi from '../api/modules/playlist.api';
 
 const PlaylistModal = ({ open, onClose, user, media,mediaType }) => {
+  // console.log("hello",media,media.name);
   const [playlists, setPlaylists] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newPlaylistName, setNewPlaylistName] = useState('');
@@ -87,19 +88,19 @@ const PlaylistModal = ({ open, onClose, user, media,mediaType }) => {
   };
 
   const handleAddToPlaylist = async () => {
-    
+
     try {
       const response = await playlistApi.addMovieToPlaylist({
         userId: user.id,
         listId: selectedPlaylist,
         mediaType: mediaType,
         mediaId: media.id,
-        mediaTitle: media.title,
+        mediaTitle: media.title || media.name,
         mediaPoster: media.poster_path,
         mediaRate: media.vote_average,
       });
   
-      console.log("Response:", response); // Log the response
+      // console.log("Response:", response); // Log the response
   
       if (response.error) {
         toast.error(response.error || "Failed to add to playlist");

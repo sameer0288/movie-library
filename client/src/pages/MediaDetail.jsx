@@ -66,7 +66,7 @@ const MediaDetail = () => {
 
     getMedia();
   }, [mediaType, mediaId, dispatch]);
-
+// console.log(media);
   const onFavoriteClick = async () => {
     if (!user) return dispatch(setAuthModalOpen(true));
 
@@ -237,7 +237,6 @@ const MediaDetail = () => {
     >
       Add to Playlist
     </Button>
-
     <PlaylistModal
       open={modalOpen}
       onClose={handleCloseModal}
