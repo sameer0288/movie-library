@@ -172,7 +172,7 @@ const PlaylistItem = ({ playlist, onRemoved }) => {
             Share Playlist
           </Button>
         )}
-        <LoadingButton
+        {/* <LoadingButton
           fullWidth
           variant="contained"
           sx={{ marginTop: 2 }}
@@ -182,7 +182,7 @@ const PlaylistItem = ({ playlist, onRemoved }) => {
           onClick={handleRemovePlaylist}
         >
           Remove Playlist
-        </LoadingButton>
+        </LoadingButton> */}
       </CardContent>
     </Card>
   );
