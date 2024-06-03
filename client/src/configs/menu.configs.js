@@ -30,7 +30,13 @@ const main = [
     path: "/search",
     icon: <SearchOutlinedIcon />,
     state: "search"
-  }
+  },
+  {
+    display: "playlists",
+    path: "/playlists",
+    icon: <PlaylistAddOutlinedIcon />,
+    state: "playlists"
+  },
 ];
 
 const user = [

@@ -1,10 +1,10 @@
-import { Box, Card, CardContent, Typography, Grid, Button, Stack,TextField,FormControlLabel,Checkbox,InputLabel,Select,MenuItem,FormControl } from "@mui/material";
+import { Box, Card, CardContent, Typography, Grid, Button, Stack, FormControlLabel, TextField, Checkbox, InputLabel, Select, MenuItem, FormControl } from "@mui/material";
 import LockIcon from '@mui/icons-material/Lock';
 import PublicIcon from '@mui/icons-material/Public';
 import DeleteIcon from "@mui/icons-material/Delete";
 import PlayArrowIcon from "@mui/icons-material/PlayArrow";
 import FavoriteIcon from "@mui/icons-material/Favorite";
-import ShareIcon from '@mui/icons-material/Share'; // Import the Share icon
+import ShareIcon from '@mui/icons-material/Share';
 import { LoadingButton } from "@mui/lab";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
@@ -22,9 +22,8 @@ import { routesGen } from "./../routes/routes";
 
 const MovieCard = styled(Card)({
   position: 'relative',
-  width: 500,
+  width: '100%',
   margin: 8,
-  // border:"1px solid red",
 
   '&:hover .details': {
     opacity: 1,
@@ -33,7 +32,6 @@ const MovieCard = styled(Card)({
 
 const MoviePoster = styled(Box)(({ theme }) => ({
   position: 'relative',
-  // border:"1px solid red",
   width: '100%',
   paddingTop: '160%',
   backgroundSize: 'cover',
@@ -74,13 +72,11 @@ const PlaylistItem = ({ playlist, onRemoved }) => {
       toast.error(err.message);
     } else {
       toast.success("Playlist removed successfully");
-      
       onRemoved(playlist._id);
     }
   };
 
   const handleSharePlaylist = () => {
-    // console.log(playlist.id)
     const playlistUrl = `${window.location.origin}/playlists/details/${playlist.id}`;
     navigator.clipboard.writeText(playlistUrl).then(() => {
       toast.success("Playlist URL copied to clipboard");
@@ -92,11 +88,11 @@ const PlaylistItem = ({ playlist, onRemoved }) => {
   return (
     <Card sx={{ mb: 2 }}>
       <CardContent>
-      <Typography variant="h3" color={"red"}>
-  {playlist.name} ({playlist.movies.length}) {/* Display the count of movies */}
-</Typography>
+        <Typography variant="h5" color="primary">
+          {playlist.name} ({playlist.movies.length})
+        </Typography>
         <Typography variant="body2" color="text.secondary" display="flex" alignItems="center">
-          {playlist.isPublic ? <><PublicIcon fontSize="small" sx={{ mr: 1 }} />Public</>: <><LockIcon fontSize="small" sx={{ mr: 1 }} />Private</>}
+          {playlist.isPublic ? <><PublicIcon fontSize="small" sx={{ mr: 1 }} />Public</> : <><LockIcon fontSize="small" sx={{ mr: 1 }} />Private</>}
         </Typography>
         {!playlist.movies || playlist.movies.length === 0 ? (
           <Typography variant="body1">No movies in this playlist.</Typography>
@@ -146,9 +142,7 @@ const PlaylistItem = ({ playlist, onRemoved }) => {
                     >
                       <Stack spacing={{ xs: 1, md: 2 }}>
                         {movie.mediaRate && <CircularRate value={movie.mediaRate} />}
-
                         <Typography>{movie.releaseDate}</Typography>
-
                         <Typography
                           variant="body1"
                           fontWeight="700"
@@ -208,6 +202,7 @@ const PlaylistList = () => {
 
   useEffect(() => {
     const fetchMovies = async () => {
+      dispatch(setGlobalLoading(true));
       try {
         const { response, err } = await mediaApi.getList({
           mediaType: "movie",
@@ -230,10 +225,12 @@ const PlaylistList = () => {
 
   useEffect(() => {
     const fetchPlaylists = async () => {
+      dispatch(setGlobalLoading(true));
       if (!user || !user.id) return;
 
       try {
         const { response, error } = await playlistApi.getUserPlaylists(user.id);
+        dispatch(setGlobalLoading(false));
         if (error) {
           toast.error(error.message);
         } else {
@@ -343,11 +340,8 @@ const PlaylistList = () => {
           </Grid>
         )}
       </Box>
-   
     </Box>
   );
 };
 
 export default PlaylistList;
-
-   
